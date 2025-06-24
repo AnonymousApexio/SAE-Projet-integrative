@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Données capteurs</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'capteurs/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@^3.0.0/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1.3.0"></script>
+    <script src="{% static 'capteurs/script.js' %}" defer></script>
+</head>
+<body data-csv-url="{% url 'donnees_csv' %}" data-json-url="{% url 'donnees_json' %}">
+<h1>Données</h1>
+<form method="get" id="filtre-form">
+    ID capteur: <input type="text" name="capteur_id" value="{{ request.GET.capteur_id }}">
+    Nom: <input type="text" name="nom" value="{{ request.GET.nom }}">
+    De: <input type="date" name="debut" value="{{ request.GET.debut }}">
+    À: <input type="date" name="fin" value="{{ request.GET.fin }}">
+    <button type="submit">Filtrer</button>
+    <a id="csv-export" class="csv-button" href="#">📥 Télécharger CSV</a>
+</form>
+<div id="controle">
+    <button id="toggle-refresh" class="pause">⏸ Pause auto-refresh</button>
+</div>
+<div id="main-content">
+    <ul id="liste-donnees">
+        {% for d in donnees %}
+            <li>{{ d.timestamp }} — {{ d.capteur.nom_capteur }} — {{ d.temperature }} °C</li>
+        {% empty %}
+            <li>Aucune donnée trouvée.</li>
+        {% endfor %}
+    </ul>
+    <div id="graph-container"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<h1>Capteurs</h1>
+<ul>
+    {% for capteur in capteurs %}
+        <li>
+            {{ capteur.nom_capteur }} — Emplacement : {{ capteur.emplacement }} — Lieu : {{ capteur.lieu }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'donnees' %}">Voir les données</a>
