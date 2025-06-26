@@ -35,3 +35,8 @@ CREATE INDEX idx_timestamp ON donnees(timestamp);
 CREATE INDEX idx_id_capteur ON donnees(id_capteur);
 
 Lien 1 <> N : un capteur peut avoir plusieurs données.
+
+
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Start-Service sshd
+Set-Service -Name sshd -StartupType 'Automatic'
