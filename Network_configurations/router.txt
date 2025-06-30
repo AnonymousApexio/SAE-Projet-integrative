@@ -1,0 +1,137 @@
+Building configuration...
+
+Current configuration : 2550 bytes
+!
+! No configuration change since last restart
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Routeur-SAE
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+resource policy
+!
+memory-size iomem 25
+clock timezone CET 1
+clock summer-time CEDT recurring
+ip subnet-zero
+!
+!
+ip cef
+no ip dhcp use vrf connected
+ip dhcp excluded-address 10.252.1.1 10.252.1.10
+ip dhcp excluded-address 10.252.1.65 10.252.1.74
+ip dhcp excluded-address 10.252.1.129 10.252.1.138
+ip dhcp excluded-address 10.252.1.193 10.252.1.202
+!
+ip dhcp pool VLAN100
+   network 10.252.1.0 255.255.255.192
+   default-router 10.252.1.62
+   dns-server 10.252.1.62
+!
+ip dhcp pool VLAN200
+   network 10.252.1.64 255.255.255.192
+   default-router 10.252.1.126
+   dns-server 10.252.1.126
+!
+ip dhcp pool VLAN300
+   network 10.252.1.128 255.255.255.192
+   dns-server 10.252.1.190
+   default-router 10.252.1.190
+!
+ip dhcp pool VLAN400
+   network 10.252.1.192 255.255.255.192
+   default-router 10.252.1.254
+   dns-server 10.252.1.254
+!
+!
+ip host sae24.rt 10.252.1.129
+ip name-server 10.252.4.42
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address dhcp
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.100
+ encapsulation dot1Q 100
+ ip address 10.252.1.62 255.255.255.192
+ ip nat inside
+ no snmp trap link-status
+!
+interface FastEthernet0/1.200
+ encapsulation dot1Q 200
+ ip address 10.252.1.126 255.255.255.192
+ ip nat inside
+ no snmp trap link-status
+!
+interface FastEthernet0/1.300
+ encapsulation dot1Q 300
+ ip address 10.252.1.190 255.255.255.192
+ ip nat inside
+ no snmp trap link-status
+!
+interface FastEthernet0/1.400
+ encapsulation dot1Q 400
+ ip address 10.252.1.254 255.255.255.192
+ ip nat inside
+ no snmp trap link-status
+!
+interface Serial0/3/0
+ no ip address
+ shutdown
+ no fair-queue
+ clock rate 125000
+!
+interface Serial0/3/1
+ no ip address
+ shutdown
+ clock rate 125000
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 FastEthernet0/0
+ip dns server
+!
+ip http server
+ip nat inside source list NAT_ACL interface FastEthernet0/0 overload
+!
+ip access-list standard NAT_ACL
+ permit 10.252.1.0 0.0.0.255
+!
+ip access-list extended BLOCK_PING
+ deny   icmp 10.252.1.64 0.0.0.63 10.252.1.192 0.0.0.63 echo
+ permit ip any any
+!
+logging trap emergencies
+logging 10.252.1.129
+!
+control-plane
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+!
+scheduler allocate 20000 1000
+ntp clock-period 17180400
+ntp server 109.190.177.200
+!
+end
