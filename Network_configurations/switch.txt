@@ -1,0 +1,167 @@
+Building configuration...
+
+Current configuration : 3630 bytes
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1211424640
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1211424640
+ revocation-check none
+ rsakeypair TP-self-signed-1211424640
+!
+!
+crypto pki certificate chain TP-self-signed-1211424640
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 31323131 34323436 3430301E 170D3933 30333031 30303031
+  30385A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 32313134
+  32343634 3030819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100B12C CA0A1ABF C2571A10 F4E41EFB 4061ABD0 A0A0F46B 36A15079 90063D37
+  7FDA1DCE 7978F203 B6271207 8FD6253C 7CE34C1F 364CD13A 77C62D4A 7FFD4EAB
+  FEC8C32F C862014B 00C53EE0 13F9C0A5 372C2551 FAC2FF0B EEBF16B0 898739B5
+  23933233 BF843598 D5DD1592 82A85E8F 519EEB44 59F59B4F 2639593A DB7A0D18
+  C01B0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603
+  551D2304 18301680 144D84A3 27336BFB C7D61319 60FD935E 70D0D3D4 1A301D06
+  03551D0E 04160414 4D84A327 336BFBC7 D6131960 FD935E70 D0D3D41A 300D0609
+  2A864886 F70D0101 05050003 81810083 D2CFBBC1 C557CBC6 F984C125 56332350
+  8698919F 48E6173A F706C41C 5472E277 0A242B74 D3243804 BB2D27D0 2F15E87E
+  0441C646 0CD39724 E7771891 52EBDA1B 55E9CF09 724DEF45 F6595111 4BF44B38
+  243D6CC7 7FCD438C D6C2BEC9 E3A18CB8 7916FD44 114BA4C1 83C39552 00ED84E3
+  F01B7AFC 0515228B BB1D4176 EF7739
+        quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport trunk allowed vlan 1,100,200,300,400
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet0/3
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet0/4
+ switchport access vlan 200
+ switchport mode access
+!
+interface FastEthernet0/5
+ switchport access vlan 200
+ switchport mode access
+!
+interface FastEthernet0/6
+ switchport access vlan 300
+ switchport mode access
+!
+interface FastEthernet0/7
+ switchport access vlan 300
+ switchport mode access
+!
+interface FastEthernet0/8
+ switchport access vlan 400
+ switchport mode access
+!
+interface FastEthernet0/9
+ switchport access vlan 400
+ switchport mode access
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+ shutdown
+!
+interface FastEthernet0/13
+ shutdown
+!
+interface FastEthernet0/14
+ shutdown
+!
+interface FastEthernet0/15
+ shutdown
+!
+interface FastEthernet0/16
+ shutdown
+!
+interface FastEthernet0/17
+ shutdown
+!
+interface FastEthernet0/18
+ shutdown
+!
+interface FastEthernet0/19
+ shutdown
+!
+interface FastEthernet0/20
+ shutdown
+!
+interface FastEthernet0/21
+ shutdown
+!
+interface FastEthernet0/22
+ shutdown
+!
+interface FastEthernet0/23
+ shutdown
+!
+interface FastEthernet0/24
+ shutdown
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+!
+ip http server
+ip http secure-server
+!
+!
+line con 0
+line vty 0 4
+ login
+line vty 5 15
+ login
+!
+!
+monitor session 1 source interface Fa0/1
+monitor session 1 destination interface Fa0/10
+monitor session 2 source vlan 100
+monitor session 2 destination interface Fa0/11
+end
